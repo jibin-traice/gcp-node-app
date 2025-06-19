@@ -15,7 +15,6 @@ spec:
     spec:
       containers:
         - name: gcp-app
-          image: gcr.io/traice-project/gcp-app:latest
+          image: us-east1-docker.pkg.dev/traice-project/gcp-node-app-repo/gcp-node-app:latest
           ports:
             - containerPort: 80
-
