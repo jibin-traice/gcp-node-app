@@ -55,3 +55,32 @@
 #     - name: Show all resources in 'jibin' namespace
 #       run: |
 #         kubectl get all -n jibin
+
+name: TRaiCE Demo Environment ZAP Scan Pipeline Workflow
+run-name: Demo Environment ZAP Scan Pipeline Workflow
+on:
+  workflow_dispatch: 
+  schedule:
+  # “At 12:30 on Every Monday” 
+    - cron:  '30 12 * * 1'
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest 
+    name: Scan the webapplication
+    steps:
+      - name: ZAP Scan
+        uses: zaproxy/action-full-scan@v0.4.0
+        with:
+          target: 'https://demo.traice.io/'    
+
+      - name: ZAP report retention
+        uses: actions/upload-artifact@v3
+        with:
+          name: zap_scan_report
+          path: ${{ github.workspace }}
+          retention-days: 8
+
+      - name: Delete default zap scan report
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: zap_scan           
